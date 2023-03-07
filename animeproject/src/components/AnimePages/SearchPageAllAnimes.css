@@ -1,0 +1,102 @@
+.notAButton {
+  border: 0;
+  background-color: white;
+  color: blue;
+}
+
+.imgSynopsisBox {
+  display: flex;
+  width: 800px;
+  height: 72px;
+}
+
+.imgSynopsisBox div{
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+justify-content: space-between;
+}
+
+.spanImg {
+flex-shrink: 2;
+font-size: 16px;
+}
+
+
+.synop {
+  font-size: 14px;
+  text-align: left;
+}
+
+.labelBox {
+  display: flex;
+  flex-direction: column;
+  width: 70px;
+  text-align: center;
+  border-left: solid;
+  border-color: #e5e5e5;
+  height: 72px;
+}
+
+.mainBox{
+  display: flex;
+  justify-content: center;
+  margin: 2px;
+  width: 1050px;
+  border-color: #e5e5e5;
+  border-style: solid;
+}
+
+.imageSize {
+  background-color: #fff;
+  border: 1px solid #bebebe;
+  display: block;
+  margin: 0;
+  padding: 0;
+  font-size: 11px;
+  line-height: 1.5em;
+  border-collapse: separate;
+  text-indent: initial;
+  border-spacing: 2px;
+  text-align: left;
+}
+
+.containerAnime{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.labelBox span {
+  border-bottom: solid;
+  border-color: #e5e5e5;
+  width: 100%;
+  font-size: 15px;
+}
+
+.labelBox  p {
+font-size: 13px;
+text-align: center;
+}
+
+.searchAnimNxtPrevButton {
+  width: 40px;
+  height: 40px;
+  background-color:RGB(219 192 237);
+  text-align: center;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  font-size: 2em;
+}
+
+.ButtonAndPageNumberBox{
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.currPage {
+  margin-left: 10px;
+  margin-right: 10px;
+}
