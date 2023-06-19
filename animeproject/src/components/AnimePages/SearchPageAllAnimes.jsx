@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import './SearchPageAllAnimes.css';
-import PropTypes from 'prop-types';
 import Header from '../Header';
+import Footer from '../Footer';
+import PageLoader from '../../PageLoader';
 
 const VINTENOVE = 29;
 
 export default function
 SearchPageAllAnimes({ match: { params: { name } }, history }) {
   const [currPage, setCurrPage] = useState(1);
-  const [arrayOfAnimes, setArrayOfAnimes] = useState({});
+  const [arrayOfAnimes, setArrayOfAnimes] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -22,6 +23,7 @@ SearchPageAllAnimes({ match: { params: { name } }, history }) {
     };
     fetchOfId(name);
   }, [name, currPage]);
+  if (loading) return <PageLoader />;
 
   return (
     <div className="bigBox">
@@ -116,18 +118,7 @@ SearchPageAllAnimes({ match: { params: { name } }, history }) {
 
           </button>) }
       </div>
+      <Footer />
     </div>
   );
 }
-
-SearchPageAllAnimes.propTypes = {
-  location: PropTypes.shape({
-    state: PropTypes.shape({
-      data: PropTypes.arrayOf({}),
-      pagination: PropTypes.shape({
-        current_page: PropTypes.number,
-        has_next_page: PropTypes.string,
-      }),
-    }),
-  }).isRequired,
-};

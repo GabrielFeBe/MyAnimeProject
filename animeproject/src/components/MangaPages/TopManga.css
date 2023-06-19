@@ -1,0 +1,63 @@
+*{
+  font-family: Avenir,lucida grande,tahoma,verdana,arial,sans-serif;
+}
+
+span{
+  line-height: 1.5em;
+  margin: 0;
+  padding: 0;
+}
+
+.titleContainer {
+  display: flex;
+
+}
+
+.titleContainer img{
+width: 50px;
+height: 70px;
+border: 0;
+}
+
+.titleContainer span{
+  text-align: left;
+}
+
+.rankNumber {
+  font-size: 36px;
+  font-weight: 700;
+  text-align: center!important;
+  color: #888;
+}
+
+.table {
+  margin: 0 auto;
+  text-align: center;
+  width: 1500px;
+}
+
+.star {
+  color: gold;
+  font-size: 1.5em;
+} 
+
+.tableDiv{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.graySmall{
+  color: #999;
+  font-size: 11px;
+}
+
+.notButton{
+  border: 0;
+  background-color: white;
+  color: purple;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+}
+

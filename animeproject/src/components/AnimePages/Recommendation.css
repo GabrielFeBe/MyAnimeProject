@@ -1,0 +1,46 @@
+.recommendationContainer{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.imgRecs {
+  width: 52px;
+  height: 80px;
+}
+
+.imgContainerRec {
+  width: 500px;
+  display: flex;
+  text-align: left;
+  font-size: 11px;
+}
+
+.recContent{
+  text-align: left;
+  font-size: 11px;
+}
+
+.recBox {
+  margin: 0 auto;
+  border-bottom: 1px solid #e5e5e5;
+  width: 1500px;
+  margin-bottom: 10px;
+}
+
+.title {
+  display: block;
+  margin-top: 5px;
+  text-decoration: none;
+  color: purple;
+}
+
+.recUserLink{
+  text-align: left;
+  font-size: 11px;
+}
+
+.recLink {
+  text-decoration: none;
+  color: purple;
+}

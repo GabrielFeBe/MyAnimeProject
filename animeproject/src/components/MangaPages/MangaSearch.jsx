@@ -1,11 +1,12 @@
-import './SearchPage.css';
+import '../AnimePages/SearchPage.css';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import AnimeCard from '../AnimeCard';
 import Header from '../Header';
+import Footer from '../Footer';
 
 const MIL = 1000;
 const QUATRO = 4;
+const CINCO = 5;
 
 export default function MangaSearch() {
   const [search, setSearch] = useState('');
@@ -25,7 +26,7 @@ export default function MangaSearch() {
   const timerRef = React.useRef(null);
 
   const handleSearch = async (value) => {
-    const response = await fetch(`https://api.jikan.moe/v4/manga?q=${value}&nsfw&order_by=scored_by&sort=desc
+    const response = await fetch(`https://api.jikan.moe/v4/manga?q=${value}&nsfw
     `);
     const data = await response.json();
     // console.log(data);
@@ -77,7 +78,7 @@ export default function MangaSearch() {
               <div className="textContainer">
                 <span>{anime.title}</span>
                 <span className="lilDescription">
-                  {`(${anime.type} , ${anime.year} )`}
+                  {`(${anime.type})`}
                 </span>
                 <div
                   className={ isHovered && numberOver === index ? 'block' : 'hidden' }
@@ -94,7 +95,7 @@ export default function MangaSearch() {
 
         </div>
 
-        {search.length > 0 && arrAnimes.length > 5
+        {search.length > 0 && arrAnimes.length > CINCO
         && (
           <div className="linkToMore">
             <p>View all results for:</p>
@@ -108,8 +109,7 @@ export default function MangaSearch() {
           </div>)}
 
       </div>
-      {arrAnimes.length > 1
-        && <AnimeCard animePropsStatus="Animes Buscados" seasonAnimes={ arrAnimes } />}
+      <Footer />
     </div>
   );
 }

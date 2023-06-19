@@ -1,19 +1,18 @@
 import './SearchPage.css';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import AnimeCard from '../AnimeCard';
 import Header from '../Header';
+import Footer from '../Footer';
 
 const MIL = 1000;
 const QUATRO = 4;
 
-export default function SearchPage({ location: { pathname } }) {
+export default function SearchPage() {
   const [search, setSearch] = useState('');
   const [arrAnimes, setAnimesArr] = useState([]);
   const [isHovered, setIsHovered] = useState(false);
   const [numberOver, setNumberOver] = useState(null);
   const [dataForPagination, setDataForPagination] = useState([]);
-  console.log(pathname);
 
   const arrOfAnimesSliced = arrAnimes.slice(0, QUATRO);
   const handleMouseOver = () => {
@@ -26,16 +25,14 @@ export default function SearchPage({ location: { pathname } }) {
   const timerRef = React.useRef(null);
 
   const handleSearch = async (value) => {
-    const response = await fetch(`https://api.jikan.moe/v4/anime?q=${value}&nsfw&order_by=scored_by&sort=desc
+    const response = await fetch(`https://api.jikan.moe/v4/anime?q=${value}&nsfw
     `);
     const data = await response.json();
-    // console.log(data);
     setDataForPagination(data);
     setAnimesArr(data.data);
   };
 
   useEffect(() => {
-    console.log('tijas o rato');
   }, [arrAnimes]);
   const handleChange = (event) => {
     clearTimeout(timerRef.current);
@@ -58,45 +55,40 @@ export default function SearchPage({ location: { pathname } }) {
           onChange={ handleChange }
           className="animeSearchInput"
         />
-        <div>
-          {search.length > 0 && arrOfAnimesSliced.map((anime, index) => {
-            if (pathname === '/Anime Search') {
-              return (
-                <Link
-                  key={ anime.mal_id }
-                  className={ isHovered && numberOver === index ? 'biggerImgContainer'
-                    : 'imageContainer' }
-                  to={ { pathname: `/animepage/${anime.title}`, state: { anime } } }
-                  onMouseOver={ () => {
-                    handleMouseOver();
-                    setNumberOver(index);
-                  } }
-                  onMouseLeave={ () => {
-                    handleMouseOut();
-                    setNumberOver(null);
-                  } }
+        <div className="animeSearchColumn">
+          {search.length > 0 && arrOfAnimesSliced.map((anime, index) => (
+            <Link
+              key={ anime.mal_id }
+              className={ isHovered && numberOver === index ? 'biggerImgContainer'
+                : 'imageContainer' }
+              to={ { pathname: `/animepage/${anime.title}`, state: { anime } } }
+              onMouseOver={ () => {
+                handleMouseOver();
+                setNumberOver(index);
+              } }
+              onMouseLeave={ () => {
+                handleMouseOut();
+                setNumberOver(null);
+              } }
+            >
+              <img src={ anime.images.jpg.small_image_url } alt="" />
+              <div className="textContainer">
+                <span>{anime.title}</span>
+                <span className="lilDescription">
+                  {`(${anime.type} , ${anime.year} )`}
+                </span>
+                <div
+                  className={ isHovered && numberOver === index ? 'block' : 'hidden' }
                 >
-                  <img src={ anime.images.jpg.small_image_url } alt="" />
-                  <div className="textContainer">
-                    <span>{anime.title}</span>
-                    <span className="lilDescription">
-                      {`(${anime.type} , ${anime.year} )`}
-                    </span>
-                    <div
-                      className={ isHovered && numberOver === index ? 'block' : 'hidden' }
-                    >
-                      {`Aired: ${anime.aired.string}`}
-                      <br />
-                      {`Score: ${anime.score}`}
-                      <br />
-                      {`Status: ${anime.status}`}
-                    </div>
-                  </div>
-                </Link>
-              );
-            }
-            return console.log('tijasgay');
-          })}
+                  {`Aired: ${anime.aired.string}`}
+                  <br />
+                  {`Score: ${anime.score}`}
+                  <br />
+                  {`Status: ${anime.status}`}
+                </div>
+              </div>
+            </Link>
+          ))}
 
         </div>
 
@@ -114,8 +106,7 @@ export default function SearchPage({ location: { pathname } }) {
           </div>)}
 
       </div>
-      {arrAnimes.length > 1
-        && <AnimeCard animePropsStatus="Animes Buscados" seasonAnimes={ arrAnimes } />}
+      <Footer />
     </div>
   );
 }

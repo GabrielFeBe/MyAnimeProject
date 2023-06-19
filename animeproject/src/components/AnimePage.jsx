@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import ReactPlayer from 'react-player';
-import PropTypes from 'prop-types';
 import Header from './Header';
 import '../App.css';
+import PageLoader from '../PageLoader';
+import Footer from './Footer';
+import AsideAnimePage from './AsideAnimePage';
 
 export default function AnimePage({ location: { state: { anime } } }) {
   const [staff, setStaff] = useState([]);
   const [streaming, setStreaming] = useState([]);
   const [producers, setProducers] = useState([]);
-  const [review, setReview] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const staffFetch = async () => {
       const reponse = await fetch(`https://api.jikan.moe/v4/anime/${anime.mal_id}/characters`);
@@ -24,126 +27,100 @@ export default function AnimePage({ location: { state: { anime } } }) {
       const response = await fetch(`https://api.jikan.moe/v4/anime/${anime.mal_id}/staff`);
       const data = await response.json();
       setProducers(data.data);
-    };
-    const reviewsFetch = async () => {
-      const response = await fetch(`https://api.jikan.moe/v4/anime/${anime.mal_id}/reviews`);
-      const data = await response.json();
-      setReview(data.data);
+      setLoading(false);
     };
     staffFetch();
     stremingFetch();
-    producersFetch();
-    reviewsFetch();
+    const delayingFetchs = setTimeout(() => {
+      producersFetch();
+    }, 3000);
+    return () => {
+      clearTimeout(delayingFetchs);
+    };
   }, [anime.mal_id]);
+  if (loading) return <PageLoader />;
   return (
 
     <div>
       <Header />
       <div className="container">
         <aside>
-          <h4>{anime.title}</h4>
-          <img src={ anime.images.jpg.image_url } alt={ `Foto de ${anime.title}` } />
-          <h5>Alternative Titles</h5>
-          <p>{`Japanese: ${anime.title_japanese}`}</p>
-          <p>{`English: ${anime.title_english}`}</p>
-          <h5>Information</h5>
-          <p>{`Type: ${anime.type}`}</p>
-          <p>{`Episodes: ${anime.episodes}`}</p>
-          <p>{`Status: ${anime.status}`}</p>
-          <p>{`Aired: ${anime.aired.string}`}</p>
-          <p>{`Premiered: ${anime.season} ${anime.year}`}</p>
-          <p>{`Broadcast: ${anime.broadcast.string}`}</p>
-          <p>{`Producers: ${anime.producers.map((producer) => producer.name)}`}</p>
-          <p>
-            {anime.licensors.length === 0
-              ? 'Licensors: none found'
-              : `Licensors: ${anime.licensors.map((licensor) => licensor.name)}`}
-          </p>
-          <p>{`Studios: ${anime.studios.map((studio) => studio.name)}`}</p>
-          <p>{`Source: ${anime.source}`}</p>
-          <p>{`Genres: ${anime.genres.map((genre) => genre.name)}`}</p>
-          <p>
-            {anime.themes.length === 1 ? `Theme: ${anime.themes[0].name}`
-              : `Themes: ${anime.themes.map((theme) => theme.name)}`}
-          </p>
-          <p>{`Duration: ${anime.duration}`}</p>
-          <p>{`Rating: ${anime.rating}`}</p>
-          <h5>Statistics</h5>
-          <p>{`Score: ${anime.score} scored by ${anime.scored_by}`}</p>
-          <p>{`Ranked: #${anime.rank}`}</p>
-          <p>{`Popularity: #${anime.popularity}`}</p>
-          <p>{`Members: ${anime.members}`}</p>
-          <p>{`Favorites: ${anime.favorites}`}</p>
-          <h5>Streaming Platforms</h5>
-          {streaming && streaming.map((streamin) => (
-            <a
-              key={ streamin.name }
-              href={ streamin.url }
-            >
-              {streamin.name}
-            </a>))}
+          <AsideAnimePage anime={ anime } streaming={ streaming } />
         </aside>
         <main>
-          <div className="titleofcontentbox">
+          <div className="titleofcontentbox marginBottom">
             <h4>Synopsis</h4>
-
             <h4>Trailer</h4>
 
           </div>
-          <div className="contentBox">
-            <ReactPlayer
+          <div className="contentBox marginBottom">
+            { !anime.trailer.embed_url ? 'Not an available trailer' : <ReactPlayer
               url={ anime.trailer.embed_url }
               width="40%"
               height="100%"
-            />
+            />}
             <p className="synopsis">{anime.synopsis}</p>
 
           </div>
           <div>
-            <h4>Background</h4>
-            <p>{anime.background}</p>
+            <h4 className="marginBottom">Background</h4>
+            <p className="marginBottom">
+              {anime.background
+              || 'No background information has been added to this title. '}
+            </p>
           </div>
-          <h4>Characters & Voice Actors</h4>
-          <div className="actorBigContainer">
-            {staff && staff.filter((validArray) => validArray.voice_actors[0])
-              .map((voiceActor) => (
-                <div key={ voiceActor.character.mal_id } className="actorSmallContainer">
-                  <div className="charImage start">
-                    <img
-                      src={ voiceActor.character.images.jpg.image_url }
-                      alt=""
-                      className="img_voice"
-                    />
-                    <p>
-                      {voiceActor.character.name}
-                      <br />
-                      <br />
-                      {voiceActor.role}
-                    </p>
-                  </div>
-                  <div className="charImage end">
-                    <img
-                      src={ voiceActor.voice_actors[0].person.images.jpg.image_url }
-                      className="img_voice"
-                      alt=""
-                    />
-                    <p>
-                      {voiceActor.voice_actors[0].person.name}
-                      <br />
-                      <br />
-                      {voiceActor.voice_actors[0].language}
-                    </p>
+          <h4 className="marginBottom">Characters & Voice Actors</h4>
+          <div className="actorBigContainer marginBottom">
+            {staff && staff
+              .filter((validArray) => validArray
+                .voice_actors.some(({ language }) => language === 'Japanese')) // test to see if there's a japanese option in voice actors
+              .slice(0, 10)
+              .map((voiceActor) => {
+                const japaneseActor = voiceActor.voice_actors
+                  .find(({ language }) => language === 'Japanese');
+                return (
+                  <div
+                    key={ voiceActor.character.mal_id }
+                    className="actorSmallContainer"
+                  >
+                    <div className="charImage start">
+                      <img
+                        src={ voiceActor.character.images.jpg.image_url }
+                        alt=""
+                        className="img_voice"
+                      />
+                      <p>
+                        {voiceActor.character.name}
+                        <br />
+                        <br />
+                        {voiceActor.role}
+                      </p>
+                    </div>
+                    <div className="charImage end">
+                      <img
+                        src={ japaneseActor.person.images.jpg.image_url }
+                        className="img_voice"
+                        alt=""
+                      />
+                      <p>
+                        {japaneseActor.person.name}
+                        <br />
+                        <br />
+                        {japaneseActor.language}
+                      </p>
 
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
 
           </div>
-          <h4>Staff</h4>
-          <div className="actorBigContainer">
+          <h4 className="marginBottom">Staff</h4>
+          <div className="actorBigContainer marginBottom">
             {producers && producers.filter(
-              (staffArr) => staffArr.positions.includes('Producer'),
-            )
+              ({ positions }) => positions.includes('Producer')
+              || positions.includes('Director') || positions.includes('Script'),
+            ).slice(0, 4)
               .map((filteredStaff) => (
                 <div
                   key={ filteredStaff.person.mal_id }
@@ -163,20 +140,14 @@ export default function AnimePage({ location: { state: { anime } } }) {
                     </p>
 
                   </div>
-                </div>))}
+                </div>
 
+              ))}
           </div>
         </main>
       </div>
+      <Footer />
     </div>
 
   );
 }
-
-AnimePage.propTypes = {
-  location: PropTypes.shape({
-    state: PropTypes.shape({
-      anime: PropTypes.arrayOf({}),
-    }),
-  }).isRequired,
-};
