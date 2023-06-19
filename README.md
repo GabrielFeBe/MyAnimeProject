@@ -26,13 +26,22 @@ Todas as informações sobre como executar o projeto serão fornecidas no arquiv
 </details>
 
 
-##Tecnologias
-*  React
-*  JavaScript
-*  Css
 
+
+<details>
+  <summary><strong>Tecnologias</strong></summary>
+
+*  React.
+*  JavaScript.
+*  Css.
+
+
+</details>
 
 <br />
+
+
+
 
 
 
