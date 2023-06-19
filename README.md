@@ -25,15 +25,15 @@ Todas as informações sobre como executar o projeto serão fornecidas no arquiv
 <br />
 </details>
 
-<details>
-  <summary><strong>Tecnologias</strong></summary>
+
+##Tecnologias
 *  React
 *  JavaScript
 *  Css
 
 
 <br />
-</details>
+
 
 
 # Considerações finais 
