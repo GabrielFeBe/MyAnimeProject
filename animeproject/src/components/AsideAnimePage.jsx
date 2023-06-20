@@ -86,7 +86,9 @@ export default function AsideAnimePage(props) {
       <p
         className="marginTextAlign"
       >
-        {`Score: ${anime.score} scored by ${anime.scored_by.toLocaleString()}`}
+        {`Score: ${anime.score} scored by ${anime.scored_by !== null
+        && anime.scored_by.toLocaleString()
+        }`}
 
       </p>
       <p className="marginTextAlign">{`Ranked: #${anime.rank}`}</p>
