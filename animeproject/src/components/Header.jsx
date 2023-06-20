@@ -20,12 +20,14 @@ export default function Header() {
 
   const timerRef = useRef(null);
   const handleSearch = async (value) => {
+    console.log(value);
+    if (value.length === 0) return setSearchArr([]);
     if (selectValue === 'Anime') {
-      const response = await fetch(`https://api.jikan.moe/v4/anime?q=${value}&nsfw&limit=10`);
+      const response = await fetch(`https://api.jikan.moe/v4/anime?q=${value}&nsfw&limit=10&min_score=1`);
       const data = await response.json();
       setSearchArr(data.data);
     } else {
-      const response = await fetch(`https://api.jikan.moe/v4/manga?q=${value}&nsfw&limit=10`);
+      const response = await fetch(`https://api.jikan.moe/v4/manga?q=${value}&nsfw&limit=10&min_score=1`);
       const data = await response.json();
       setSearchArr(data.data);
     }
@@ -62,7 +64,7 @@ export default function Header() {
               onMouseLeave={ () => { setDisplayListAnime('displayNone'); } }
               onMouseEnter={ () => { setDisplayListAnime('displayBlock'); } }
             >
-              {arrayListAnime.map((page) => (
+              { arrayListAnime.map((page) => (
                 <Link
                   to={ `/${page}` }
                   key={ page }
@@ -144,7 +146,7 @@ export default function Header() {
             } }
             placeholder="Search Anime, Manga and more..."
           />
-          { inputFocus || mouseOver ? <HomeSearch
+          { (inputFocus || mouseOver) && searchInput.length > 0 ? <HomeSearch
             type={ selectValue }
             searchArr={ searchArr }
             mouseOver={ setMouseOver }
