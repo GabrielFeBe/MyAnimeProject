@@ -10,7 +10,7 @@ export default function HomePage() {
   const [seasonAnimes, setSeasonAnimess] = useState([]);
   const [currentAnimeArray, setCurrentAnimeArray] = useState([]);
   const [errors, setErrors] = useState(null);
-  const [arrayUpcoming, setArrayUpcoming] = useState([]);
+  const [arrayMovies, setArrayMovie] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
 
@@ -35,15 +35,14 @@ export default function HomePage() {
       setCurrentAnimeArray(data.data);
     };
 
-    const fetchTopFiveUpcomingAnimes = async () => {
-      const response = await fetch('https://api.jikan.moe/v4/top/anime?limit=5&filter=upcoming');
+    const fetchTopFiveMovies = async () => {
+      const response = await fetch('https://api.jikan.moe/v4/top/anime?filter=bypopularity&limit=5&type=movie');
       const data = await response.json();
-      setArrayUpcoming(data.data);
+      setArrayMovie(data.data);
       setLoading(false);
     };
     const timeForSecondFetch = setTimeout(() => {
-      console.log('alo');
-      fetchTopFiveUpcomingAnimes();
+      fetchTopFiveMovies();
       fetchTopFiveAiringAnimes();
     }, 3000);
 
@@ -76,9 +75,9 @@ export default function HomePage() {
             loading={ loading }
 
           />
-          { arrayUpcoming.length > 0 && <Aside
-            animeArray={ arrayUpcoming }
-            title="Top Upcoming Anime"
+          { arrayMovies.length > 0 && <Aside
+            animeArray={ arrayMovies }
+            title="Top Movies"
             loading={ loading }
           />}
         </aside>

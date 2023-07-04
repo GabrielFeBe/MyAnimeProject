@@ -6,7 +6,7 @@ export default function TopAnimeRows() {
   const [arrayOfTopTen, setArrayOfTopTen] = useState([]);
   useEffect(() => {
     const fetchTopTenAnimes = async () => {
-      const response = await fetch('https://api.jikan.moe/v4/top/anime?limit=10');
+      const response = await fetch('https://api.jikan.moe/v4/top/anime?filter=bypopularity&limit=10');
       const data = await response.json();
       setArrayOfTopTen(data.data);
     };

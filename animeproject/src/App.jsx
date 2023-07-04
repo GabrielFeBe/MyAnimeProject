@@ -16,6 +16,7 @@ import People from './components/AnimePages/People';
 function App() {
   return (
     <div className="App">
+
       <Switch>
         <Route exact path="/People" component={ People } />
         <Route exact path="/Character" component={ Character } />
