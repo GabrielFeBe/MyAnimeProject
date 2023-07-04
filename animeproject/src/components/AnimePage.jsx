@@ -117,10 +117,7 @@ export default function AnimePage({ location: { state: { anime } } }) {
           </div>
           <h4 className="marginBottom">Staff</h4>
           <div className="actorBigContainer marginBottom">
-            {producers && producers.filter(
-              ({ positions }) => positions.includes('Producer')
-              || positions.includes('Director') || positions.includes('Script'),
-            ).slice(0, 4)
+            {producers && producers.slice(0, 4)
               .map((filteredStaff) => (
                 <div
                   key={ filteredStaff.person.mal_id }
