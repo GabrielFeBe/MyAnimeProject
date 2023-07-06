@@ -100,7 +100,7 @@ export default function MangaSearch() {
           <div className="linkToMore">
             <p>View all results for:</p>
             <Link
-              to={ { pathname: `/Anime Search/${search}`, state: dataForPagination,
+              to={ { pathname: `/Manga Search/${search}`, state: dataForPagination,
               } }
             >
               {search}

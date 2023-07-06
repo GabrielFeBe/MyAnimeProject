@@ -23,9 +23,10 @@ function App() {
         <Route exact path="/Recommendation" component={ Recommendation } />
         <Route exact path="/" component={ HomePage } />
         <Route path="/animepage/:id" component={ AnimePage } />
-        <Route path="/Manga Search" component={ MangaSearch } />
+        <Route exact path="/Manga Search" component={ MangaSearch } />
         <Route exact path="/Anime Search" component={ SearchPage } />
         <Route path="/Anime Search/:name" component={ SearchPageAllAnimes } />
+        <Route path="/Manga Search/:name" component={ SearchPageAllAnimes } />
         <Route path="/mangapage/:name" component={ MangaPage } />
         <Route path="/Top Manga" component={ TopManga } />
         <Route path="/Top Anime" component={ TopAnimePage } />
