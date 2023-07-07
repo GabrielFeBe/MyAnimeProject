@@ -38,18 +38,6 @@ SearchPageAllAnimes({ match: { params: { name } } }) {
   return (
     <div className="bigBox">
       <Header />
-      <table className="table">
-        <thead>
-          <tr>
-            <th>Rank</th>
-            <th>People</th>
-            <th>
-              Birthday
-            </th>
-            <th>Favorites</th>
-          </tr>
-        </thead>
-      </table>
       <div className="containerAnime">
         {!loading && arrayOfAnimes.data.map((anime) => {
           console.log(anime.synopsis);
