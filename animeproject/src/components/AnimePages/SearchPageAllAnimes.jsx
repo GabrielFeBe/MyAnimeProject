@@ -5,7 +5,7 @@ import Header from '../Header';
 import Footer from '../Footer';
 import PageLoader from '../../PageLoader';
 
-const VINTENOVE = 29;
+const QUARENTA = 40;
 
 export default function
 SearchPageAllAnimes({ match: { params: { name } } }) {
@@ -38,13 +38,25 @@ SearchPageAllAnimes({ match: { params: { name } } }) {
   return (
     <div className="bigBox">
       <Header />
+      <table className="table">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>People</th>
+            <th>
+              Birthday
+            </th>
+            <th>Favorites</th>
+          </tr>
+        </thead>
+      </table>
       <div className="containerAnime">
         {!loading && arrayOfAnimes.data.map((anime) => {
           console.log(anime.synopsis);
           let textJoin;
           if (anime.synopsis !== null) {
             const textSplit = anime.synopsis.split(' ');
-            const textSlice = textSplit.slice(0, VINTENOVE);
+            const textSlice = textSplit.slice(0, QUARENTA);
             textJoin = textSlice.join(' ');
             console.log(textSlice);
           }

@@ -32,7 +32,9 @@ export default function Footer() {
 
           <a
             className="HoverLinks"
+            target="_blank"
             href="https://github.com/GabrielFeBe"
+            rel="noreferrer"
 
           >
             <img
@@ -44,7 +46,9 @@ export default function Footer() {
           </a>
           <a
             className="HoverLinks"
+            target="_blank"
             href="https://www.linkedin.com/in/gabriel-fernandes-453813264/"
+            rel="noreferrer"
 
           >
             <img src={ linkedin } alt="linkedin" style={ imageStyle } />
@@ -53,7 +57,9 @@ export default function Footer() {
           </a>
           <a
             className="HoverLinks"
+            target="_blank"
             href="https://www.instagram.com/"
+            rel="noreferrer"
 
           >
             <img src={ instagram } alt="insta" style={ imageStyle } />

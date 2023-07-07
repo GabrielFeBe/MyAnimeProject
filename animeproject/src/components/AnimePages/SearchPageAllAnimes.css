@@ -6,7 +6,7 @@
 
 .imgSynopsisBox {
   display: flex;
-  width: 800px;
+  width: 100%;
   height: 72px;
 }
 
@@ -42,7 +42,7 @@ font-size: 16px;
   display: flex;
   justify-content: center;
   margin: 2px;
-  width: 1050px;
+  width: 1500px;
   border-color: #e5e5e5;
   border-style: solid;
 }
