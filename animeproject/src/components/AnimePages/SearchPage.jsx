@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../Header';
 import Footer from '../Footer';
+import LetterSearch from '../LetterSearch';
 
 const MIL = 1000;
 const QUATRO = 4;
@@ -55,6 +56,7 @@ export default function SearchPage() {
           onChange={ handleChange }
           className="animeSearchInput"
         />
+        <LetterSearch />
         <div className="animeSearchColumn">
           {search.length > 0 && arrOfAnimesSliced.map((anime, index) => (
             <Link

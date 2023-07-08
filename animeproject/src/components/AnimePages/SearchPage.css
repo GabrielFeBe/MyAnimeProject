@@ -103,3 +103,12 @@ justify-content: flex-start;
 .animeSearchColumn{
   position: relative
 }
+
+.selectedButton {
+  border: 0;
+  background-color: red;
+  color: purple;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+}
