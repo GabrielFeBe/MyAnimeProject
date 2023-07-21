@@ -71,7 +71,8 @@ export default function MangaPage({ location: { state: { anime } } }) {
           <p className="marginTextAlign">{`Rating: ${anime.rating}`}</p>
           <h5 className="marginTextAlign borderBottom">Statistics</h5>
           <p className="marginTextAlign">
-            {`Score: ${anime.score} scored by ${anime.scored_by.toLocaleString()}`}
+            {`Score: ${anime.score} scored by ${anime.scored_by
+               && anime.scored_by.toLocaleString()}`}
 
           </p>
           <p className="marginTextAlign">{`Ranked: #${anime.rank}`}</p>
