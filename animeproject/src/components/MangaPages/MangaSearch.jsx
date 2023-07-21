@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../Header';
 import Footer from '../Footer';
+import LetterSearch from '../LetterSearch';
+import SearchPageLetters from '../SearchPageLetters';
 
 const MIL = 1000;
 const QUATRO = 4;
@@ -13,6 +15,8 @@ export default function MangaSearch() {
   const [arrAnimes, setAnimesArr] = useState([]);
   const [isHovered, setIsHovered] = useState(false);
   const [numberOver, setNumberOver] = useState(null);
+  const [arraySearch, setArraySearchManga] = useState([]);
+
   const [dataForPagination, setDataForPagination] = useState([]);
 
   const arrOfAnimesSliced = arrAnimes.slice(0, QUATRO);
@@ -29,13 +33,11 @@ export default function MangaSearch() {
     const response = await fetch(`https://api.jikan.moe/v4/manga?q=${value}&nsfw
     `);
     const data = await response.json();
-    // console.log(data);
     setDataForPagination(data);
     setAnimesArr(data.data);
   };
 
   useEffect(() => {
-    console.log('tijas o rato');
   }, [arrAnimes]);
   const handleChange = (event) => {
     clearTimeout(timerRef.current);
@@ -50,52 +52,54 @@ export default function MangaSearch() {
   return (
     <div>
       <Header />
+      <LetterSearch setArraySearchManga={ setArraySearchManga } />
       <div className="animeListContainer">
-        <input
-          type="text"
-          placeholder="Search anime"
-          value={ search }
-          onChange={ handleChange }
-          className="animeSearchInput"
-        />
-        <div>
-          {search.length > 0 && arrOfAnimesSliced.map((anime, index) => (
-            <Link
-              key={ anime.mal_id }
-              className={ isHovered && numberOver === index ? 'biggerImgContainer'
-                : 'imageContainer' }
-              to={ { pathname: `/mangapage/${anime.title}`, state: { anime } } }
-              onMouseOver={ () => {
-                handleMouseOver();
-                setNumberOver(index);
-              } }
-              onMouseLeave={ () => {
-                handleMouseOut();
-                setNumberOver(null);
-              } }
-            >
-              <img src={ anime.images.jpg.small_image_url } alt="" />
-              <div className="textContainer">
-                <span>{anime.title}</span>
-                <span className="lilDescription">
-                  {`(${anime.type})`}
-                </span>
-                <div
-                  className={ isHovered && numberOver === index ? 'block' : 'hidden' }
-                >
-                  {`Published: ${anime.published.string}`}
-                  <br />
-                  {`Score: ${anime.score}`}
-                  <br />
-                  {`Status: ${anime.status}`}
+        <div className="relativeSearchPage">
+
+          <input
+            type="text"
+            placeholder="Search anime"
+            value={ search }
+            onChange={ handleChange }
+            className="animeSearchInput"
+          />
+
+          <div className="animeSearchColumn">
+            {search.length > 0 && arrOfAnimesSliced.map((anime, index) => (
+              <Link
+                key={ anime.mal_id }
+                className={ isHovered && numberOver === index ? 'biggerImgContainer'
+                  : 'imageContainer' }
+                to={ { pathname: `/mangapage/${anime.title}`, state: { anime } } }
+                onMouseOver={ () => {
+                  handleMouseOver();
+                  setNumberOver(index);
+                } }
+                onMouseLeave={ () => {
+                  handleMouseOut();
+                  setNumberOver(null);
+                } }
+              >
+                <img src={ anime.images.jpg.small_image_url } alt="" />
+                <div className="textContainer">
+                  <span>{anime.title}</span>
+                  <span className="lilDescription">
+                    {`(${anime.type})`}
+                  </span>
+                  <div
+                    className={ isHovered && numberOver === index ? 'block' : 'hidden' }
+                  >
+                    {`Published: ${anime.published.string}`}
+                    <br />
+                    {`Score: ${anime.score}`}
+                    <br />
+                    {`Status: ${anime.status}`}
+                  </div>
                 </div>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            ))}
 
-        </div>
-
-        {search.length > 0 && arrAnimes.length > CINCO
+            {search.length > 0 && arrAnimes.length > CINCO
         && (
           <div className="linkToMore">
             <p>View all results for:</p>
@@ -108,7 +112,12 @@ export default function MangaSearch() {
             </Link>
           </div>)}
 
+          </div>
+
+        </div>
+
       </div>
+      <SearchPageLetters arraySearch={ arraySearch.data || [] } type="manga" />
       <Footer />
     </div>
   );

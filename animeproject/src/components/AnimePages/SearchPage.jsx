@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom';
 import Header from '../Header';
 import Footer from '../Footer';
 import LetterSearch from '../LetterSearch';
+import SearchPageLetters from '../SearchPageLetters';
 
 const MIL = 1000;
-const QUATRO = 4;
 
 export default function SearchPage() {
   const [search, setSearch] = useState('');
@@ -14,8 +14,8 @@ export default function SearchPage() {
   const [isHovered, setIsHovered] = useState(false);
   const [numberOver, setNumberOver] = useState(null);
   const [dataForPagination, setDataForPagination] = useState([]);
-
-  const arrOfAnimesSliced = arrAnimes.slice(0, QUATRO);
+  const [arraySearch, setArraySearchAnime] = useState([]);
+  const arrOfAnimesSliced = arrAnimes.slice(0, 4);
   const handleMouseOver = () => {
     setIsHovered(true);
   };
@@ -48,53 +48,55 @@ export default function SearchPage() {
   return (
     <div>
       <Header />
+      <LetterSearch setArraySearchAnime={ setArraySearchAnime } />
+
       <div className="animeListContainer">
-        <input
-          type="text"
-          placeholder="Search anime"
-          value={ search }
-          onChange={ handleChange }
-          className="animeSearchInput"
-        />
-        <LetterSearch />
-        <div className="animeSearchColumn">
-          {search.length > 0 && arrOfAnimesSliced.map((anime, index) => (
-            <Link
-              key={ anime.mal_id }
-              className={ isHovered && numberOver === index ? 'biggerImgContainer'
-                : 'imageContainer' }
-              to={ { pathname: `/animepage/${anime.title}`, state: { anime } } }
-              onMouseOver={ () => {
-                handleMouseOver();
-                setNumberOver(index);
-              } }
-              onMouseLeave={ () => {
-                handleMouseOut();
-                setNumberOver(null);
-              } }
-            >
-              <img src={ anime.images.jpg.small_image_url } alt="" />
-              <div className="textContainer">
-                <span>{anime.title}</span>
-                <span className="lilDescription">
-                  {`(${anime.type} , ${anime.year} )`}
-                </span>
-                <div
-                  className={ isHovered && numberOver === index ? 'block' : 'hidden' }
-                >
-                  {`Aired: ${anime.aired.string}`}
-                  <br />
-                  {`Score: ${anime.score}`}
-                  <br />
-                  {`Status: ${anime.status}`}
+
+        <div className="relativeSearchPage">
+
+          <input
+            type="text"
+            placeholder="Search anime"
+            value={ search }
+            onChange={ handleChange }
+            className="animeSearchInput"
+          />
+          <div className="animeSearchColumn">
+            {search.length > 0 && arrOfAnimesSliced.map((anime, index) => (
+              <Link
+                key={ anime.mal_id }
+                className={ isHovered && numberOver === index ? 'biggerImgContainer'
+                  : 'imageContainer' }
+                to={ { pathname: `/animepage/${anime.title}`, state: { anime } } }
+                onMouseOver={ () => {
+                  handleMouseOver();
+                  setNumberOver(index);
+                } }
+                onMouseLeave={ () => {
+                  handleMouseOut();
+                  setNumberOver(null);
+                } }
+              >
+                <img src={ anime.images.jpg.small_image_url } alt="" />
+                <div className="textContainer">
+                  <span>{anime.title}</span>
+                  <span className="lilDescription">
+                    {`(${anime.type} , ${anime.year} )`}
+                  </span>
+                  <div
+                    className={ isHovered && numberOver === index ? 'block' : 'hidden' }
+                  >
+                    {`Aired: ${anime.aired.string}`}
+                    <br />
+                    {`Score: ${anime.score}`}
+                    <br />
+                    {`Status: ${anime.status}`}
+                  </div>
                 </div>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            ))}
 
-        </div>
-
-        {search.length > 0 && arrAnimes.length > 5
+            {search.length > 0 && arrAnimes.length > 5
         && (
           <div className="linkToMore">
             <p>View all results for:</p>
@@ -107,7 +109,12 @@ export default function SearchPage() {
             </Link>
           </div>)}
 
+          </div>
+
+        </div>
+
       </div>
+      <SearchPageLetters arraySearch={ arraySearch.data || [] } />
       <Footer />
     </div>
   );
