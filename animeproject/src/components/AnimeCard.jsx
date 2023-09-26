@@ -27,7 +27,17 @@ export default function AnimeCard({ seasonAnimes }) {
   return (
     <div>
       <div className="carousel">
-        { seasonAnimes.length > 0 && <h2>{Season()}</h2>}
+        { seasonAnimes.length > 0 && (
+          <h2
+            style={ {
+              fontSize: '1.5rem',
+              marginBottom: '1rem',
+              marginTop: '1rem',
+            } }
+          >
+            {Season()}
+
+          </h2>)}
         <div
           className="carousel-items"
           ref={ carouselRef }

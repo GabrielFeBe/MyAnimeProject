@@ -16,7 +16,16 @@ export default function TopAnimeRows() {
   const { push } = useHistory();
   return (
     <>
-      <h2>Most Popular Anime</h2>
+      <h2
+        style={ {
+          fontSize: '1.5rem',
+          marginBottom: '1rem',
+          marginTop: '1rem',
+        } }
+      >
+        Most Popular Anime
+
+      </h2>
       <div className="topTenBox">
         {arrayOfTopTen.map((anime, i) => {
           const { score, members, type, images: { jpg: { image_url: imageUrl } },
